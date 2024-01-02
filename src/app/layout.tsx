@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import Footer from "./components/Footer";
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,10 +18,12 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <main className="flex min-h-[100dvh] flex-col items-center justify-between relative">
-          <AppRouterCacheProvider>
-            {children}
-            <Footer />
-          </AppRouterCacheProvider>
+          <UserProvider>
+            <AppRouterCacheProvider>
+              {children}
+              <Footer />
+            </AppRouterCacheProvider>
+          </UserProvider>
         </main>
       </body>
     </html>

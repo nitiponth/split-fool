@@ -1,7 +1,27 @@
 import { createClient } from "@supabase/supabase-js";
+import { Database } from "../interfaces/supabase";
 
-const supabaseUrl = "https://cdlychhkfisswbremaem.supabase.co";
-const supabaseAnonKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNkbHljaGhrZmlzc3dicmVtYWVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDQwMzk3OTcsImV4cCI6MjAxOTYxNTc5N30.kniJuzajF9yW3J6_i2TFpMtLZzqbXBwK1p_4fSbEzOQ";
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+const getSupabase = (access_token: string | undefined) => {
+  const options: Record<string, any> = {};
+
+  if (access_token) {
+    options.global = {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    };
+  }
+
+  const supabase = createClient<Database>(
+    supabaseUrl,
+    supabaseAnonKey,
+    options
+  );
+
+  return supabase;
+};
+
+export { getSupabase };

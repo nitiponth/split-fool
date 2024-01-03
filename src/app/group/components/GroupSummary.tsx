@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { toAmountString } from "../utils/common";
+import { toAmountString } from "../../utils/common";
 import SummaryList from "./SummaryList";
 import Image from "next/image";
 

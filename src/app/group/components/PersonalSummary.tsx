@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { toAmountString } from "../utils/common";
+import { toAmountString } from "../../utils/common";
 
 interface Props {
   name: string;

@@ -32,7 +32,10 @@ const Footer = () => {
           Activity
         </Typography>
       </div>
-      <div className="flex flex-col items-center justify-center !w-16">
+      <a
+        className="flex flex-col items-center justify-center !w-16 no-underline text-gray-500"
+        href="/api/auth/logout"
+      >
         <Avatar
           sx={{ width: 24, height: 24 }}
           src={user?.picture ?? undefined}
@@ -40,7 +43,7 @@ const Footer = () => {
         <Typography variant="caption" className="text-gray-500">
           Account
         </Typography>
-      </div>
+      </a>
     </div>
   );
 };

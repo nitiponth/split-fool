@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { toAmountString, toShortName } from "../utils/common";
+import { toAmountString, toShortName } from "../../utils/common";
 import PersonalSummary, { Transaction } from "./PersonalSummary";
 import MoreSummary from "./MoreSummary";
 

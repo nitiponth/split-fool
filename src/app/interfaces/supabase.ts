@@ -107,6 +107,13 @@ export interface Database {
             isOneToOne: false;
             referencedRelation: "group";
             referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "member_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["user_id"];
           }
         ];
       };

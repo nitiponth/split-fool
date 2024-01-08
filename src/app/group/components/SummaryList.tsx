@@ -3,7 +3,7 @@ import { toAmountString, toShortName } from "../../utils/common";
 import PersonalSummary, { Transaction } from "./PersonalSummary";
 import MoreSummary from "./MoreSummary";
 
-interface PersonalDept {
+export interface PersonalDept {
   name: string;
   amount: number;
   type: Transaction;

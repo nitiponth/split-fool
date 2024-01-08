@@ -5,6 +5,7 @@ import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import { Typography, Avatar } from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import Link from "next/link";
 
 const Footer = () => {
   const { user } = useUser();
@@ -17,12 +18,15 @@ const Footer = () => {
           Friends
         </Typography>
       </div>
-      <div className="flex flex-col items-center justify-center !w-16">
+      <Link
+        href={"/group"}
+        className="flex flex-col items-center justify-center !w-16 no-underline"
+      >
         <PeopleAltOutlinedIcon className="text-gray-500 " />
         <Typography variant="caption" className="text-gray-500">
           Group
         </Typography>
-      </div>
+      </Link>
       <div className="flex flex-col items-center justify-center !w-16">
         <AddOutlinedIcon sx={{ fontSize: "24px" }} className="text-gray-500 " />
       </div>

@@ -30,7 +30,7 @@ const CreateGroup = () => {
 
   const supabase = getSupabase(user?.accessToken as string | undefined);
 
-  const { handleSubmit, register, control } = methods;
+  const { handleSubmit } = methods;
 
   const createGroupHandler = async ({ name, profile }: TSchema) => {
     try {

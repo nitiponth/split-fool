@@ -24,4 +24,6 @@ const getSupabase = (access_token: string | undefined) => {
   return supabase;
 };
 
-export { getSupabase };
+const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
+
+export { getSupabase, supabase };

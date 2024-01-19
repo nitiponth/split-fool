@@ -10,7 +10,7 @@ export const toShortName = (name: string) => {
   const capFirst = first.charAt(0).toUpperCase() + first.slice(1);
 
   const resp = [capFirst];
-  if (last.length) {
+  if (last?.length) {
     const shortLast = last.charAt(0).toUpperCase() + ".";
     resp.push(shortLast);
   }

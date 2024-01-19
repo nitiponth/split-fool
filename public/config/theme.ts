@@ -15,4 +15,13 @@ export const theme = createTheme({
       fontWeight: "600",
     },
   },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        contained: {
+          backgroundColor: "#539165",
+        },
+      },
+    },
+  },
 });

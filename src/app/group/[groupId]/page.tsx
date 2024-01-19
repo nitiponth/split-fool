@@ -9,9 +9,21 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import AddGroupMemberList from "../components/AddGroupMemberList/AddGroupMemberList";
+import { FormProvider, useForm } from "react-hook-form";
 
 const GroupDetail = ({ params }: { params: { groupId: string } }) => {
   const [groupDetail, setGroupDetail] = useState<Group>();
+
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const { groupId } = params;
 
@@ -34,8 +46,18 @@ const GroupDetail = ({ params }: { params: { groupId: string } }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [groupId]);
 
+  const methods = useForm<{ selectedUserIds: string[] }>({
+    defaultValues: {
+      selectedUserIds: [],
+    },
+  });
+  const { watch } = methods;
+
+  const a = watch("selectedUserIds");
+  console.log("🚀 ~ GroupDetail ~ a:", a);
+
   return (
-    <Layout className="!p-0 bg-slate-800 relative">
+    <Layout className="!p-0 bg-slate-800 relative flex flex-col">
       <div className="flex justify-between bg-slate-950 p-4 pt-10 py-20 t-0 w-full">
         <ArrowBackIosIcon sx={{ fontSize: "20px" }} onClick={router.back} />
         <SettingsOutlinedIcon sx={{ fontSize: "20px" }} />
@@ -48,23 +70,29 @@ const GroupDetail = ({ params }: { params: { groupId: string } }) => {
       </div>
 
       <div className="px-8 mt-[88px]">
-        <Typography className="text-xl font-semibold">
+        <Typography className="text-2xl font-semibold">
           {groupDetail?.name}
         </Typography>
       </div>
 
-      <div className="flex flex-col flex-[1_0_auto] bg-red-100">
-        <div className="flex flex-1 h-full flex-col items-center">
+      <div className="flex flex-1 flex-col">
+        <div className="flex flex-1 h-full flex-col items-center pt-20 gap-8">
           <Typography>{"You're the only one here!"}</Typography>
           <Button
             variant="contained"
+            size="large"
             startIcon={<GroupAddIcon />}
             className="text-white"
+            onClick={handleClickOpen}
           >
             Add members
           </Button>
         </div>
       </div>
+
+      <FormProvider {...methods}>
+        <AddGroupMemberList open={open} handleClose={handleClose} />
+      </FormProvider>
     </Layout>
   );
 };

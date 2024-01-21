@@ -15,12 +15,18 @@ interface Session {
 }
 
 const afterCallback = async (req: NextRequest, session: Session) => {
+  let id;
   try {
-    await supabase.from("user").insert({
-      user_id: session.user.sub,
-      name: session.user.name,
-      profile: session.user.picture,
-    });
+    const { data } = await supabase
+      .from("users")
+      .insert({
+        sub: session.user.sub,
+        name: session.user.name,
+        profile: session.user.picture,
+      })
+      .select("id");
+
+    id = data?.[0]?.id;
   } catch (error) {
     console.log("🚀 ~ file: route.ts:25 ~ afterCallback ~ error:", error);
   }
@@ -30,6 +36,7 @@ const afterCallback = async (req: NextRequest, session: Session) => {
     exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
   };
 
+  session.user.id = id;
   session.user.accessToken = jwt.sign(payload, key);
 
   return session;

@@ -4,7 +4,7 @@ import { supabase } from "@/app/db/supabase-client";
 import { Group } from "@/app/interfaces/group";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import { Button, ThemeProvider, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -51,10 +51,6 @@ const GroupDetail = ({ params }: { params: { groupId: string } }) => {
       selectedUserIds: [],
     },
   });
-  const { watch } = methods;
-
-  const a = watch("selectedUserIds");
-  console.log("🚀 ~ GroupDetail ~ a:", a);
 
   return (
     <Layout className="!p-0 bg-slate-800 relative flex flex-col">

@@ -51,6 +51,35 @@ export interface Database {
           }
         ];
       };
+      friend: {
+        Row: {
+          created_at: string;
+          friend_id: string;
+          id: number;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          friend_id: string;
+          id?: number;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          friend_id?: string;
+          id?: number;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "friend_friend_id_fkey";
+            columns: ["friend_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       group: {
         Row: {
           created_at: string;
@@ -76,7 +105,15 @@ export interface Database {
           profile_url?: string | null;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "group_created_by_fkey";
+            columns: ["created_by"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       member: {
         Row: {
@@ -111,9 +148,9 @@ export interface Database {
           {
             foreignKeyName: "member_user_id_fkey";
             columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "user";
-            referencedColumns: ["user_id"];
+            isOneToOne: true;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -150,8 +187,8 @@ export interface Database {
             foreignKeyName: "transaction_debtor_id_fkey";
             columns: ["debtor_id"];
             isOneToOne: false;
-            referencedRelation: "user";
-            referencedColumns: ["user_id"];
+            referencedRelation: "users";
+            referencedColumns: ["id"];
           },
           {
             foreignKeyName: "transaction_expense_id_fkey";
@@ -164,41 +201,50 @@ export interface Database {
             foreignKeyName: "transaction_payer_id_fkey";
             columns: ["payer_id"];
             isOneToOne: false;
-            referencedRelation: "user";
-            referencedColumns: ["user_id"];
+            referencedRelation: "users";
+            referencedColumns: ["id"];
           }
         ];
       };
-      user: {
+      users: {
         Row: {
           bank: string | null;
           bank_account: string | null;
           created_at: string;
+          email: string | null;
+          id: string;
           name: string;
+          phone: string | null;
           profile: string | null;
           prompt_pay: string | null;
+          sub: string | null;
           updated_at: string;
-          user_id: string;
         };
         Insert: {
           bank?: string | null;
           bank_account?: string | null;
           created_at?: string;
+          email?: string | null;
+          id?: string;
           name: string;
+          phone?: string | null;
           profile?: string | null;
           prompt_pay?: string | null;
+          sub?: string | null;
           updated_at?: string;
-          user_id: string;
         };
         Update: {
           bank?: string | null;
           bank_account?: string | null;
           created_at?: string;
+          email?: string | null;
+          id?: string;
           name?: string;
+          phone?: string | null;
           profile?: string | null;
           prompt_pay?: string | null;
+          sub?: string | null;
           updated_at?: string;
-          user_id?: string;
         };
         Relationships: [];
       };

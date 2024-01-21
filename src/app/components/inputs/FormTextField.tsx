@@ -1,7 +1,9 @@
 import { TextField, TextFieldProps } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 
-type Props = TextFieldProps;
+type Props = TextFieldProps & {
+  name: string;
+};
 
 const FormTextField = (props: Props) => {
   const { control } = useFormContext();
@@ -9,7 +11,7 @@ const FormTextField = (props: Props) => {
   return (
     <Controller
       control={control}
-      name="name"
+      name={props.name}
       render={({
         field: { onChange, onBlur, value, name, ref },
         fieldState: { invalid, error },
@@ -18,12 +20,12 @@ const FormTextField = (props: Props) => {
           onChange={onChange}
           onBlur={onBlur}
           value={value}
-          name={name}
           ref={ref}
-          variant="filled"
           error={invalid}
           helperText={error?.message}
           {...props}
+          name={name}
+          variant="filled"
         />
       )}
     />

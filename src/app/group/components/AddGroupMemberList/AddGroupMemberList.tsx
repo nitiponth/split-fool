@@ -12,17 +12,80 @@ import {
 } from "@mui/material";
 import Member from "./Member";
 import AddNewContact from "../AddNewContact.tsx/AddNewContact";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PersonAddAlt1SharpIcon from "@mui/icons-material/PersonAddAlt1Sharp";
+import { supabase } from "@/app/db/supabase-client";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { getFriends } from "../../queries/friends";
 
 interface Props {
   open: boolean;
   handleClose: () => void;
 }
 
+interface Friend {
+  id: string;
+  name: string;
+  profile?: string | null;
+}
+
 const AddGroupMemberList = ({ open, handleClose }: Props) => {
   const [openNewContactModal, setOpenNewContactModal] =
     useState<boolean>(false);
+
+  const [friends, setFriends] = useState<Friend[]>([]);
+
+  const { user } = useUser();
+  const { id } = user ?? {};
+
+  const initialize = async () => {
+    if (!id) return;
+
+    const { data } = await getFriends.eq("user_id", id);
+    console.log("🚀 ~ initialize ~ data:", data);
+
+    const friendList =
+      data?.map(({ users }): Friend => {
+        return {
+          id: users!.id,
+          name: users!.name,
+          profile: users!.profile,
+        };
+      }) ?? [];
+
+    setFriends(friendList);
+  };
+
+  useEffect(() => {
+    try {
+      initialize();
+    } catch (error) {
+      console.log("🚀 ~ useEffect ~ error:", error);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  const refreshAfterCreated = async () => {
+    initialize();
+    setOpenNewContactModal(false);
+  };
+
+  const FriendList = () => {
+    if (!friends.length) return null;
+
+    return friends.map((item) => {
+      return (
+        <>
+          <Divider />
+          <Member
+            name={"selectedUserIds"}
+            userId={item.id}
+            userName={item.name}
+          />
+        </>
+      );
+    });
+  };
 
   return (
     <>
@@ -60,20 +123,13 @@ const AddGroupMemberList = ({ open, handleClose }: Props) => {
             </div>
             <ListItemText primary={"Add a new contract to SplitFool"} />
           </ListItemButton>
-          <Divider />
-          <Member name={"selectedUserIds"} userId={"1"} userName={"test 1"} />
-          <Divider />
-          <Member name={"selectedUserIds"} userId={"2"} userName={"test 2"} />
-          <Divider />
-          <Member name={"selectedUserIds"} userId={"3"} userName={"test 3"} />
-          <Divider />
-          <Member name={"selectedUserIds"} userId={"4"} userName={"test 4"} />
+          <FriendList />
         </List>
       </Dialog>
 
       <AddNewContact
         open={openNewContactModal}
-        handleConfirm={() => setOpenNewContactModal(false)}
+        handleConfirm={refreshAfterCreated}
         handleClose={() => setOpenNewContactModal(false)}
       />
     </>

@@ -8,12 +8,12 @@ export const groupListWithMembers = supabase.from("group").select(
             profile_url,
             member (
               id,
-              user (
-                user_id,
+              users (
+                id,
                 name
               )
             )
-          `
+  `
 );
 
 export type GroupListWithMembers = QueryData<typeof groupListWithMembers>;

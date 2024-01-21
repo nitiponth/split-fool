@@ -39,14 +39,14 @@ const CreateGroup = () => {
         .insert({
           name,
           profile_url: profile,
-          created_by: user?.sub ?? "FIXME",
+          created_by: user?.id! as string,
         })
         .select("*");
 
       const groupId = data?.[0].id;
 
       await supabase.from("member").insert({
-        user_id: user?.sub!,
+        user_id: user?.id! as string,
         group_id: groupId,
       });
 

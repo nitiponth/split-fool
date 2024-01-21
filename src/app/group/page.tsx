@@ -13,17 +13,18 @@ import {
 
 const Group = () => {
   const { user } = useUser();
+  const { id } = user ?? {};
   const supabase = useSupabase();
 
   const [groupList, setGroupList] = useState<GroupListWithMembers>([]);
 
   const initialize = async () => {
     try {
-      if (!user) return;
+      if (!id) return;
       const { data: members } = await supabase
         .from("member")
         .select("group_id")
-        .eq("user_id", user.sub!);
+        .eq("user_id", id);
 
       const groupIds = members?.map((item) => item.group_id) ?? [];
       const { data } = await groupListWithMembers.in("id", groupIds);
@@ -41,7 +42,7 @@ const Group = () => {
     initialize();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [id]);
 
   return (
     <Layout>
@@ -50,9 +51,9 @@ const Group = () => {
 
       <div className="flex flex-col w-full gap-2">
         {groupList.map((group) => {
-          const members = group.member.map((memb) => ({
-            name: memb.user?.name ?? "",
-            user_id: memb.user?.user_id ?? "",
+          const members = group.member.map((member) => ({
+            name: member.users?.name ?? "",
+            user_id: member.users?.id ?? "",
           }));
 
           return (

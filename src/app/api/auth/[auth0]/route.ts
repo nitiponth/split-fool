@@ -4,15 +4,12 @@ import {
   handleLogin,
   handleCallback,
   AfterCallback,
+  Session,
 } from "@auth0/nextjs-auth0";
 import jwt from "jsonwebtoken";
 import { NextRequest } from "next/server";
 
 const key = process.env.SUPABASE_JWT_SECRET!;
-
-interface Session {
-  [key: string]: any;
-}
 
 const afterCallback = async (req: NextRequest, session: Session) => {
   let id;
@@ -23,6 +20,7 @@ const afterCallback = async (req: NextRequest, session: Session) => {
         sub: session.user.sub,
         name: session.user.name,
         profile: session.user.picture,
+        email: session.user.email,
       })
       .select("id");
 
